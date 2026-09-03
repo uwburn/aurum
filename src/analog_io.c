@@ -3,8 +3,6 @@
 #include "aurum.h"
 #include "aurum_private.h"
 
-// OK
-
 uint8_t analog_reference = DEFAULT;
 
 void au_analog_reference(uint8_t mode) {

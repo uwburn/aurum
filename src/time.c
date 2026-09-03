@@ -3,8 +3,6 @@
 
 #include "aurum.h"
 
-// OK
-
 // the prescaler is set so that timer0 ticks every 64 clock cycles, and the
 // the overflow handler is called every 256 ticks.
 #define MICROSECONDS_PER_TIMER0_OVERFLOW (au_clock_cycles_to_microseconds(64 * 256))

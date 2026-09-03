@@ -4,8 +4,6 @@
 #include "aurum.h"
 #include "aurum_private.h"
 
-// OK
-
 void au_init() {
 	// this needs to be called before setup() or some functions won't
 	// work there

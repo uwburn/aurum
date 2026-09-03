@@ -4,8 +4,6 @@
 #include "aurum.h"
 #include "aurum_private.h"
 
-// OK
-
 static void nothing(void) {
 }
 

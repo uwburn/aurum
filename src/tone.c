@@ -4,15 +4,10 @@
 
 #include "aurum.h"
 
-// OK
-
-/*
- * timerx_toggle_count:
- *
- *  > 0 - duration specified
- *  = 0 - stopped
- *  < 0 - infinitely
- */
+// timerx_toggle_count:
+//  > 0 - duration specified
+//  = 0 - stopped
+//  < 0 - infinitely
 volatile long timer2_toggle_count;
 
 volatile uint8_t *timer2_pin_port;

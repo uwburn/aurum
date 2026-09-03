@@ -7,8 +7,6 @@
 #include "aurum.h"
 #include "aurum_private.h"
 
-// OK
-
 // Arduino AVR core therefore uses 16-byte RX/TX buffers by default:
 //   RAMEND - RAMSTART < 1023
 // 

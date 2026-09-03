@@ -4,8 +4,6 @@
 #include "aurum.h"
 #include "aurum_private.h"
 
-// OK
-
 static void au_turn_off_pwm(uint8_t timer) {
   switch (timer) {
   case AU_TIMER1A:
