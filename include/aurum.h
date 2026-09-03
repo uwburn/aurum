@@ -206,4 +206,21 @@ void au_serial_println_uint(uint32_t value);
 void au_serial_print_int(int32_t value);
 void au_serial_println_int(int32_t value);
 
+
+/*
+* EEPROM
+*
+* Functions to read and write on the integrated EEPROM.
+* ATmega328P EEPROM size: 1024 bytes, valid addresses: 0..1023
+*/
+
+#define AU_EEPROM_SIZE 1024U
+#define AU_EEPROM_END  (AU_EEPROM_SIZE - 1U)
+
+uint8_t au_eeprom_read(uint16_t address);
+void au_eeprom_write(uint16_t address, uint8_t value);
+void au_eeprom_update(uint16_t address, uint8_t value);
+void au_eeprom_get(uint16_t address, void *data, uint16_t size);
+void au_eeprom_put(uint16_t address, const void *data, uint16_t size);
+
 #endif
