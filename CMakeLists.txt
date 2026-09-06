@@ -55,7 +55,6 @@ add_library(aurum INTERFACE)
 
 target_sources(aurum
     INTERFACE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/aurum.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/system.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/digital_io.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/analog_io.c
