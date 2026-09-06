@@ -23,6 +23,8 @@ project(aurum LANGUAGES C ASM)
 #     src/pulse.s
 #     src/pulse.c
 #     src/shift.c
+#     src/eeprom.c
+#     src/software_serial.c
 # )
 
 # target_include_directories(aurum
@@ -66,6 +68,8 @@ target_sources(aurum
         ${CMAKE_CURRENT_SOURCE_DIR}/src/pulse.s
         ${CMAKE_CURRENT_SOURCE_DIR}/src/pulse.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/shift.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/eeprom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/software_serial.c
 )
 
 target_include_directories(aurum
