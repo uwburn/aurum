@@ -23,10 +23,24 @@
 # define F_CPU 16000000UL
 #endif
 
-extern const uint8_t PROGMEM port_to_mode_PGM[];
-extern const uint8_t PROGMEM port_to_input_PGM[];
-extern const uint8_t PROGMEM port_to_output_PGM[];
+#define AU_NOT_A_PIN 0
+#define AU_NOT_A_PORT 0
+#define AU_NOT_ON_TIMER 0
+#define AU_TIMER0A 1
+#define AU_TIMER0B 2
+#define AU_TIMER1A 3
+#define AU_TIMER1B 4
+#define AU_TIMER1C 5
+#define AU_TIMER2  6
+#define AU_TIMER2A 7
+#define AU_TIMER2B 8
+#define AU_PORT_B 0
+#define AU_PORT_C 1
+#define AU_PORT_D 2
 
+extern const uint16_t PROGMEM port_to_mode_PGM[];
+extern const uint16_t PROGMEM port_to_input_PGM[];
+extern const uint16_t PROGMEM port_to_output_PGM[];
 extern const uint8_t PROGMEM digital_pin_to_port_PGM[];
 extern const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[];
 extern const uint8_t PROGMEM digital_pin_to_timer_PGM[];
@@ -38,19 +52,6 @@ extern const uint8_t PROGMEM digital_pin_to_timer_PGM[];
 #define au_port_output_register(P) ( (volatile uint8_t *)( pgm_read_word( port_to_output_PGM + (P))) )
 #define au_port_input_register(P) ( (volatile uint8_t *)( pgm_read_word( port_to_input_PGM + (P))) )
 #define au_port_mode_register(P) ( (volatile uint8_t *)( pgm_read_word( port_to_mode_PGM + (P))) )
-
-#define AU_NOT_A_PIN 0
-#define AU_NOT_A_PORT 0
-
-#define AU_NOT_ON_TIMER 0
-#define AU_TIMER0A 1
-#define AU_TIMER0B 2
-#define AU_TIMER1A 3
-#define AU_TIMER1B 4
-#define AU_TIMER1C 5
-#define AU_TIMER2  6
-#define AU_TIMER2A 7
-#define AU_TIMER2B 8
 
 #define au_clock_cycles_per_microsecond() ( F_CPU / 1000000L )
 #define au_clock_cycles_to_microseconds(a) ( (a) / au_clock_cycles_per_microsecond() )
