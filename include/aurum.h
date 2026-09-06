@@ -200,23 +200,23 @@ typedef union {
     uint16_t alignment;
 } au_software_serial_t;
 
-void au_software_serial_init(au_software_serial_t *serial, uint8_t rx_pin, uint8_t tx_pin, bool inverse_logic);
-void au_software_serial_begin(au_software_serial_t *serial, uint32_t baud);
-void au_software_serial_end(au_software_serial_t *serial);
-bool au_software_serial_listen(au_software_serial_t *serial);
-void au_software_serial_stop_listening(au_software_serial_t *serial);
+void au_software_serial_init(const au_software_serial_t *serial, uint8_t rx_pin, uint8_t tx_pin, bool inverse_logic);
+void au_software_serial_begin(const au_software_serial_t *serial, uint32_t baud);
+void au_software_serial_end(const au_software_serial_t *serial);
+bool au_software_serial_listen(const au_software_serial_t *serial);
+void au_software_serial_stop_listening(const au_software_serial_t *serial);
 bool au_software_serial_is_listening(const au_software_serial_t *serial);
 int au_software_serial_available(const au_software_serial_t *serial);
-int au_software_serial_read(au_software_serial_t *serial);
+int au_software_serial_read(const au_software_serial_t *serial);
 int au_software_serial_peek(const au_software_serial_t *serial);
-bool au_software_serial_overflow(au_software_serial_t *serial);
-size_t au_software_serial_write(au_software_serial_t *serial, uint8_t value);
-void au_software_serial_flush(au_software_serial_t *serial);
-void au_software_serial_print_str(au_software_serial_t *serial, const char *s);
-void au_software_serial_println_str(au_software_serial_t *serial, const char *s);
-void au_software_serial_print_uint(au_software_serial_t *serial, uint32_t value);
-void au_software_serial_println_uint(au_software_serial_t *serial, uint32_t value);
-void au_software_serial_print_int(au_software_serial_t *serial, int32_t value);
-void au_software_serial_println_int(au_software_serial_t *serial, int32_t value);
+bool au_software_serial_overflow(const au_software_serial_t *serial);
+size_t au_software_serial_write(const au_software_serial_t *serial, uint8_t value);
+void au_software_serial_flush(const au_software_serial_t *serial);
+void au_software_serial_print_str(const au_software_serial_t *serial, const char *s);
+void au_software_serial_println_str(const au_software_serial_t *serial, const char *s);
+void au_software_serial_print_uint(const au_software_serial_t *serial, uint32_t value);
+void au_software_serial_println_uint(const au_software_serial_t *serial, uint32_t value);
+void au_software_serial_print_int(const au_software_serial_t *serial, int32_t value);
+void au_software_serial_println_int(const au_software_serial_t *serial, int32_t value);
 
 #endif

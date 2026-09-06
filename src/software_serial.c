@@ -43,7 +43,7 @@ _Static_assert(
 
 #endif
 
-static inline au_software_serial_impl_t * au_software_serial_impl(au_software_serial_t *serial) {
+static inline au_software_serial_impl_t * au_software_serial_impl(const au_software_serial_t *serial) {
     return (au_software_serial_impl_t *)serial->storage;
 }
 
@@ -53,14 +53,7 @@ static uint8_t receive_buffer[AU_SOFTWARE_SERIAL_RX_BUFFER_SIZE];
 static volatile uint8_t receive_buffer_head = 0;
 static volatile uint8_t receive_buffer_tail = 0;
 
-static au_software_serial_t *active_serial = NULL;
-
-static void enable_pcint(au_software_serial_t *serial);
-static void disable_pcint(au_software_serial_t *serial);
-
-static void recv(au_software_serial_t *serial);
-static void tuned_delay(uint16_t delay);
-
+static const au_software_serial_t *active_serial = NULL;
 
 static inline void au_software_serial_tuned_delay(uint16_t delay) {
   _delay_loop_2(delay);
@@ -75,13 +68,13 @@ static uint16_t subtract_cap(uint16_t num, uint16_t sub) {
 }
 
 static inline uint8_t rx_pin_read(const au_software_serial_t *serial) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   return (*impl->rx_port_register & impl->rx_bit_mask);
 }
 
-static inline void set_rx_int_mask(au_software_serial_t *serial, bool enable) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+static inline void set_rx_int_mask(const au_software_serial_t *serial, bool enable) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   if (enable) {
     *impl->pcint_mask_register |= impl->pcint_mask_value;
@@ -91,8 +84,8 @@ static inline void set_rx_int_mask(au_software_serial_t *serial, bool enable) {
   }
 }
 
-static void set_tx(au_software_serial_t *serial, uint8_t pin) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+static void set_tx(const au_software_serial_t *serial, uint8_t pin) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   switch (pin) {
   case 0:
@@ -222,8 +215,8 @@ static void set_tx(au_software_serial_t *serial, uint8_t pin) {
   }
 }
 
-static bool set_rx(au_software_serial_t *serial, uint8_t pin) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+static bool set_rx(const au_software_serial_t *serial, uint8_t pin) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   switch (pin) {
   case 0:
@@ -394,7 +387,7 @@ static bool set_rx(au_software_serial_t *serial, uint8_t pin) {
 }
 
 static void enable_pcint_group(const au_software_serial_t *serial) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   if (impl->pcint_mask_register == &PCMSK0) {
     PCICR |= _BV(PCIE0);
@@ -407,8 +400,8 @@ static void enable_pcint_group(const au_software_serial_t *serial) {
   }
 }
 
-void au_software_serial_init(au_software_serial_t *serial, uint8_t rx_pin, uint8_t tx_pin, bool inverse_logic) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+void au_software_serial_init(const au_software_serial_t *serial, uint8_t rx_pin, uint8_t tx_pin, bool inverse_logic) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   impl->inverse_logic = inverse_logic ? 1 : 0;
 
@@ -432,8 +425,8 @@ void au_software_serial_init(au_software_serial_t *serial, uint8_t rx_pin, uint8
   set_rx(serial, rx_pin);
 }
 
-void au_software_serial_begin(au_software_serial_t *serial, uint32_t baud) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+void au_software_serial_begin(const au_software_serial_t *serial, uint32_t baud) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   if (baud == 0) {
     return;
@@ -478,11 +471,11 @@ void au_software_serial_begin(au_software_serial_t *serial, uint32_t baud) {
     */
   au_software_serial_tuned_delay(impl->tx_delay);
 
-  return au_software_serial_listen(serial);
+  au_software_serial_listen(serial);
 }
 
-bool au_software_serial_listen(au_software_serial_t *serial) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+bool au_software_serial_listen(const au_software_serial_t *serial) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   if (impl->rx_delay_stopbit == 0) {
     return false;
@@ -509,8 +502,8 @@ bool au_software_serial_listen(au_software_serial_t *serial) {
   return false;
 }
 
-void au_software_serial_stop_listening(au_software_serial_t *serial) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+void au_software_serial_stop_listening(const au_software_serial_t *serial) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   if (active_serial == serial) {
     set_rx_int_mask(serial, false);
@@ -520,8 +513,8 @@ void au_software_serial_stop_listening(au_software_serial_t *serial) {
   }
 }
 
-static void au_software_serial_recv(au_software_serial_t *serial) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+static void au_software_serial_recv(const au_software_serial_t *serial) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   uint8_t d = 0;
 
@@ -632,7 +625,7 @@ int au_software_serial_available(const au_software_serial_t *serial) {
   return AU_SOFTWARE_SERIAL_RX_BUFFER_SIZE - tail + head;
 }
 
-int au_software_serial_read(au_software_serial_t *serial) {
+int au_software_serial_read(const au_software_serial_t *serial) {
   (void)serial;
 
   if (receive_buffer_head == receive_buffer_tail) {
@@ -650,7 +643,7 @@ int au_software_serial_read(au_software_serial_t *serial) {
   return c;
 }
 
-int au_software_serial_peek(au_software_serial_t *serial) {
+int au_software_serial_peek(const au_software_serial_t *serial) {
   (void)serial;
 
   if (receive_buffer_head == receive_buffer_tail) {
@@ -660,8 +653,8 @@ int au_software_serial_peek(au_software_serial_t *serial) {
   return receive_buffer[receive_buffer_tail];
 }
 
-bool au_software_serial_overflow(au_software_serial_t *serial) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+bool au_software_serial_overflow(const au_software_serial_t *serial) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
 
   bool overflow = impl->buffer_overflow != 0;
 
@@ -670,8 +663,8 @@ bool au_software_serial_overflow(au_software_serial_t *serial) {
   return overflow;
 }
 
-size_t au_software_serial_write(au_software_serial_t *serial, uint8_t value) {
-  au_software_serial_impl_t *impl = serial_impl(serial);
+size_t au_software_serial_write(const au_software_serial_t *serial, uint8_t value) {
+  au_software_serial_impl_t *impl = au_software_serial_impl(serial);
   
   if (impl->tx_delay == 0) {
     return 0;
@@ -745,11 +738,11 @@ size_t au_software_serial_write(au_software_serial_t *serial, uint8_t value) {
   return 1;
 }
 
-void au_software_serial_flush(au_software_serial_t *serial) {
+void au_software_serial_flush(const au_software_serial_t *serial) {
   (void)serial;
 }
 
-void au_software_serial_end(au_software_serial_t *serial) {
+void au_software_serial_end(const au_software_serial_t *serial) {
   au_software_serial_stop_listening(serial);
 }
 
@@ -772,19 +765,19 @@ ISR(PCINT2_vect) {
   handle_interrupt();
 }
 
-void au_software_serial_print_str(au_software_serial_t *serial, const char *s) {
+void au_software_serial_print_str(const au_software_serial_t *serial, const char *s) {
   while (*s) {
     au_software_serial_write(serial, (uint8_t)*s++);
   }
 }
 
-void au_software_serial_println_str(au_software_serial_t *serial, const char *s) {
+void au_software_serial_println_str(const au_software_serial_t *serial, const char *s) {
   au_software_serial_print_str(serial, s);
   au_software_serial_write(serial, '\r');
   au_software_serial_write(serial, '\n');
 }
 
-void au_software_serial_print_uint(au_software_serial_t *serial, uint32_t value) {
+void au_software_serial_print_uint(const au_software_serial_t *serial, uint32_t value) {
   char buffer[10];
   uint8_t i = 0;
 
@@ -803,13 +796,13 @@ void au_software_serial_print_uint(au_software_serial_t *serial, uint32_t value)
   }
 }
 
-void au_software_serial_println_uint(au_software_serial_t *serial, uint32_t value) {
+void au_software_serial_println_uint(const au_software_serial_t *serial, uint32_t value) {
   au_software_serial_print_uint(serial, value);
   au_software_serial_write(serial, '\r');
   au_software_serial_write(serial, '\n');
 }
 
-void au_software_serial_print_int(au_software_serial_t *serial, int32_t value) {
+void au_software_serial_print_int(const au_software_serial_t *serial, int32_t value) {
   if (value < 0) {
     au_software_serial_write(serial, '-');
 
@@ -820,7 +813,7 @@ void au_software_serial_print_int(au_software_serial_t *serial, int32_t value) {
   }
 }
 
-void au_software_serial_println_int(au_software_serial_t *serial, int32_t value) {
+void au_software_serial_println_int(const au_software_serial_t *serial, int32_t value) {
   au_software_serial_print_int(serial, value);
   au_software_serial_write(serial, '\r');
   au_software_serial_write(serial, '\n');
