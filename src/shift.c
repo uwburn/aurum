@@ -1,4 +1,4 @@
-#include "aurum.h"
+#include "aurum/core.h"
 
 uint8_t au_shift_in(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
 	uint8_t value = 0;

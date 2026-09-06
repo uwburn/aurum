@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+#include "aurum/tone.h"
 #include "aurum_private.h"
 
 // timerx_toggle_count:

@@ -1,6 +1,6 @@
-#include "aurum.h"
-
 #include <avr/io.h>
+
+#include "aurum/eeprom.h"
 
 uint8_t au_eeprom_read(uint16_t address) {
   // Wait for completion of previous write

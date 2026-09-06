@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <util/delay_basic.h>
 
+#include "aurum/software-serial.h"
 #include "aurum_private.h"
 
 #define AU_SOFTWARE_SERIAL_RX_BUFFER_SIZE 64

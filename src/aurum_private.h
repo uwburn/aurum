@@ -3,7 +3,7 @@
 
 #include <avr/pgmspace.h>
 
-#include "aurum.h"
+#include "aurum/core.h"
 
 #ifndef F_CPU
 # warning "F_CPU not defined for <aurum.h>"

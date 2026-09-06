@@ -12,8 +12,8 @@
 */
 
 
-#ifndef AURUM_H
-#define AURUM_H
+#ifndef AURUM_CORE_H
+#define AURUM_CORE_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -88,8 +88,6 @@ void au_analog_write(uint8_t pin, uint8_t value);
 #define AU_LSBFIRST 0
 #define AU_MSBFIRST 1
 
-void au_tone(uint8_t pin, unsigned int frequency, unsigned long duration);
-void au_no_tone(uint8_t pin);
 uint32_t au_pulse_in(uint8_t pin, uint8_t state, uint32_t timeout);
 uint32_t au_pulse_in_long(uint8_t pin, uint8_t state, uint32_t timeout);
 uint8_t au_shift_in(uint8_t data_pin, uint8_t clock_pin, uint8_t bit_order);
@@ -163,81 +161,5 @@ void au_serial_print_uint(uint32_t value);
 void au_serial_println_uint(uint32_t value);
 void au_serial_print_int(int32_t value);
 void au_serial_println_int(int32_t value);
-
-
-/*
-* EEPROM
-*
-* Functions to read and write on the integrated EEPROM.
-* ATmega328P EEPROM size: 1024 bytes, valid addresses: 0..1023
-*/
-
-#define AU_EEPROM_SIZE 1024U
-#define AU_EEPROM_END  (AU_EEPROM_SIZE - 1U)
-
-uint8_t au_eeprom_read(uint16_t address);
-void au_eeprom_write(uint16_t address, uint8_t value);
-void au_eeprom_update(uint16_t address, uint8_t value);
-void au_eeprom_get(uint16_t address, void *data, uint16_t size);
-void au_eeprom_put(uint16_t address, const void *data, uint16_t size);
-
-/*
-* SOFTWARE SERIAL
-*
-* Allows serial communication on other digital pins of the board, using
-* software to replicate the functionality. 
-*
-* The following limitations are present:
-* - It cannot transmit and receive data at the same time.
-* - If using multiple software serial ports, only one can receive data
-*   at a time.
-*/
-
-typedef struct {
-  /* RX pin */
-  uint8_t rx_pin;
-  uint8_t rx_bit_mask;
-  volatile uint8_t *rx_port_register;
-
-  /* TX pin */
-  uint8_t tx_pin;
-  uint8_t tx_bit_mask;
-  volatile uint8_t *tx_port_register;
-
-  /* Pin Change Interrupt */
-  volatile uint8_t *pcint_mask_register;
-  uint8_t pcint_mask_value;
-
-  /* Timing - expressed as 4-cycle delays */
-  uint16_t rx_delay_centering;
-  uint16_t rx_delay_intrabit;
-  uint16_t rx_delay_stopbit;
-  uint16_t tx_delay;
-
-  /* State */
-  uint8_t buffer_overflow;
-  uint8_t inverse_logic;
-
-  uint8_t listening;
-} au_software_serial_t;
-
-void au_software_serial_init(au_software_serial_t *serial, uint8_t rx_pin, uint8_t tx_pin, bool inverse_logic);
-void au_software_serial_begin(au_software_serial_t *serial, uint32_t baud);
-void au_software_serial_end(au_software_serial_t *serial);
-bool au_software_serial_listen(au_software_serial_t *serial);
-void au_software_serial_stop_listening(au_software_serial_t *serial);
-bool au_software_serial_is_listening(au_software_serial_t *serial);
-int au_software_serial_available(au_software_serial_t *serial);
-int au_software_serial_read(au_software_serial_t *serial);
-int au_software_serial_peek(au_software_serial_t *serial);
-bool au_software_serial_overflow(au_software_serial_t *serial);
-size_t au_software_serial_write(au_software_serial_t *serial, uint8_t value);
-void au_software_serial_flush(au_software_serial_t *serial);
-void au_software_serial_print_str(au_software_serial_t *serial, const char *s);
-void au_software_serial_println_str(au_software_serial_t *serial, const char *s);
-void au_software_serial_print_uint(au_software_serial_t *serial, uint32_t value);
-void au_software_serial_println_uint(au_software_serial_t *serial, uint32_t value);
-void au_software_serial_print_int(au_software_serial_t *serial, int32_t value);
-void au_software_serial_println_int(au_software_serial_t *serial, int32_t value);
 
 #endif
