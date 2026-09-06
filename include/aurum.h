@@ -192,32 +192,11 @@ void au_eeprom_put(uint16_t address, const void *data, uint16_t size);
 *   at a time.
 */
 
-typedef struct {
-  /* RX pin */
-  uint8_t rx_pin;
-  uint8_t rx_bit_mask;
-  volatile uint8_t *rx_port_register;
+#define AU_SOFTWARE_SERIAL_SIZE 22
 
-  /* TX pin */
-  uint8_t tx_pin;
-  uint8_t tx_bit_mask;
-  volatile uint8_t *tx_port_register;
-
-  /* Pin Change Interrupt */
-  volatile uint8_t *pcint_mask_register;
-  uint8_t pcint_mask_value;
-
-  /* Timing - expressed as 4-cycle delays */
-  uint16_t rx_delay_centering;
-  uint16_t rx_delay_intrabit;
-  uint16_t rx_delay_stopbit;
-  uint16_t tx_delay;
-
-  /* State */
-  uint8_t buffer_overflow;
-  uint8_t inverse_logic;
-
-  uint8_t listening;
+typedef union {
+    uint8_t storage[AU_SOFTWARE_SERIAL_SIZE];
+    uint16_t alignment;
 } au_software_serial_t;
 
 void au_software_serial_init(au_software_serial_t *serial, uint8_t rx_pin, uint8_t tx_pin, bool inverse_logic);
