@@ -2,7 +2,7 @@
 #include <avr/io.h>
 #include <util/atomic.h>
 #include <stdbool.h>
-#include <stdio.h>
+#include <stddef.h>
 
 #include "aurum_private.h"
 
