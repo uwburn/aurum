@@ -34,9 +34,9 @@
 #define AU_TIMER2  6
 #define AU_TIMER2A 7
 #define AU_TIMER2B 8
-#define AU_PORT_B 0
-#define AU_PORT_C 1
-#define AU_PORT_D 2
+#define AU_PORT_B 2
+#define AU_PORT_C 3
+#define AU_PORT_D 4
 
 extern const uint16_t PROGMEM port_to_mode_PGM[];
 extern const uint16_t PROGMEM port_to_input_PGM[];
