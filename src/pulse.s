@@ -1,7 +1,5 @@
-// Copied 1:1 from Arduino AVR Core
-// count_pulse is in assembly as it needs precise timing
-
-#include <avr/io.h>
+/* Copied 1:1 from Arduino AVR Core */
+/* count_pulse is in assembly as it needs precise timing */
 
 .section .text
 
