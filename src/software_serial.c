@@ -29,10 +29,19 @@ typedef struct {
   uint8_t listening;
 } au_software_serial_impl_t;
 
+#ifndef __INTELLISENSE__
+
 _Static_assert(
   sizeof(au_software_serial_impl_t) <= AU_SOFTWARE_SERIAL_SIZE,
   "au_software_serial_t storage too small"
 );
+
+_Static_assert(
+    _Alignof(au_software_serial_impl_t) <= _Alignof(au_software_serial_t),
+    "au_software_serial_t alignment too small"
+);
+
+#endif
 
 static inline au_software_serial_impl_t * au_software_serial_impl(au_software_serial_t *serial) {
     return (au_software_serial_impl_t *)serial->storage;
@@ -500,7 +509,7 @@ bool au_software_serial_listen(au_software_serial_t *serial) {
   return false;
 }
 
-bool au_software_serial_stop_listening(au_software_serial_t *serial) {
+void au_software_serial_stop_listening(au_software_serial_t *serial) {
   au_software_serial_impl_t *impl = serial_impl(serial);
 
   if (active_serial == serial) {
@@ -508,11 +517,7 @@ bool au_software_serial_stop_listening(au_software_serial_t *serial) {
 
     active_serial = NULL;
     impl->listening = 0;
-
-    return true;
   }
-
-  return false;
 }
 
 static void au_software_serial_recv(au_software_serial_t *serial) {
