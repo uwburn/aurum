@@ -12,13 +12,6 @@ static volatile uint8_t receive_buffer_tail = 0;
 
 static au_software_serial_t *active_serial = NULL;
 
-static void enable_pcint(au_software_serial_t *serial);
-static void disable_pcint(au_software_serial_t *serial);
-
-static void recv(au_software_serial_t *serial);
-static void tuned_delay(uint16_t delay);
-
-
 static inline void au_software_serial_tuned_delay(uint16_t delay) {
   _delay_loop_2(delay);
 }
@@ -31,7 +24,7 @@ static uint16_t subtract_cap(uint16_t num, uint16_t sub) {
   return 1;
 }
 
-static inline uint8_t rx_pin_read(const au_software_serial_t *serial) {
+static inline uint8_t rx_pin_read(au_software_serial_t *serial) {
   return (*serial->rx_port_register & serial->rx_bit_mask);
 }
 
@@ -346,7 +339,7 @@ static bool set_rx(au_software_serial_t *serial, uint8_t pin) {
   return true;
 }
 
-static void enable_pcint_group(const au_software_serial_t *serial)
+static void enable_pcint_group(au_software_serial_t *serial)
 {
   if (serial->pcint_mask_register == &PCMSK0) {
     PCICR |= _BV(PCIE0);
@@ -429,7 +422,7 @@ void au_software_serial_begin(au_software_serial_t *serial, uint32_t baud) {
     */
   au_software_serial_tuned_delay(serial->tx_delay);
 
-  return au_software_serial_listen(serial);
+  au_software_serial_listen(serial);
 }
 
 bool au_software_serial_listen(au_software_serial_t *serial) {
@@ -458,17 +451,13 @@ bool au_software_serial_listen(au_software_serial_t *serial) {
   return false;
 }
 
-bool au_software_serial_stop_listening(au_software_serial_t *serial) {
+void au_software_serial_stop_listening(au_software_serial_t *serial) {
   if (active_serial == serial) {
     set_rx_int_mask(serial, false);
 
     active_serial = NULL;
     serial->listening = 0;
-
-    return true;
   }
-
-  return false;
 }
 
 static void au_software_serial_recv(au_software_serial_t *serial) {
@@ -568,7 +557,7 @@ static void au_software_serial_recv(au_software_serial_t *serial) {
   set_rx_int_mask(serial, true);
 }
 
-int au_software_serial_available(const au_software_serial_t *serial) {
+int au_software_serial_available(au_software_serial_t *serial) {
   (void)serial;
 
   uint8_t head = receive_buffer_head;
