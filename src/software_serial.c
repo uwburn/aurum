@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay_basic.h>
-#include <stddef.h>
 
 #include "aurum_private.h"
 
