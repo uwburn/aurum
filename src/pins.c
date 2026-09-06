@@ -1,6 +1,6 @@
-#include "aurum.h"
+#include "aurum_private.h"
 
-const uint16_t PROGMEM port_to_mode_PGM[] = {
+const uint16_t PROGMEM au_port_to_mode_PGM[] = {
 	AU_NOT_A_PORT,
 	AU_NOT_A_PORT,
 	(uint16_t) &DDRB,
@@ -8,7 +8,7 @@ const uint16_t PROGMEM port_to_mode_PGM[] = {
 	(uint16_t) &DDRD,
 };
 
-const uint16_t PROGMEM port_to_input_PGM[] = {
+const uint16_t PROGMEM au_port_to_input_PGM[] = {
 	AU_NOT_A_PORT,
 	AU_NOT_A_PORT,
 	(uint16_t) &PINB,
@@ -16,7 +16,7 @@ const uint16_t PROGMEM port_to_input_PGM[] = {
 	(uint16_t) &PIND,
 };
 
-const uint16_t PROGMEM port_to_output_PGM[] = {
+const uint16_t PROGMEM au_port_to_output_PGM[] = {
 	AU_NOT_A_PORT,
 	AU_NOT_A_PORT,
 	(uint16_t) &PORTB,
@@ -24,7 +24,7 @@ const uint16_t PROGMEM port_to_output_PGM[] = {
 	(uint16_t) &PORTD,
 };
 
-const uint8_t PROGMEM digital_pin_to_port_PGM[] = {
+const uint8_t PROGMEM au_digital_pin_to_port_PGM[] = {
 	AU_PORT_D, /* 0 */
 	AU_PORT_D,
 	AU_PORT_D,
@@ -47,7 +47,7 @@ const uint8_t PROGMEM digital_pin_to_port_PGM[] = {
 	AU_PORT_C,
 };
 
-const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
+const uint8_t PROGMEM au_digital_pin_to_bit_mask_PGM[] = {
 	_BV(0), /* 0, port D */
 	_BV(1),
 	_BV(2),
@@ -70,7 +70,7 @@ const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
 	_BV(5),
 };
 
-const uint8_t PROGMEM digital_pin_to_timer_PGM[] = {
+const uint8_t PROGMEM au_digital_pin_to_timer_PGM[] = {
 	AU_NOT_ON_TIMER, /* 0 - port D */
 	AU_NOT_ON_TIMER,
 	AU_NOT_ON_TIMER,

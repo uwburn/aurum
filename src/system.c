@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "aurum.h"
 #include "aurum_private.h"
 
 void au_init() {

@@ -5,14 +5,14 @@ uint8_t au_shift_in(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
 	uint8_t i;
 
 	for (i = 0; i < 8; ++i) {
-		au_digital_write(clockPin, HIGH);
-		if (bitOrder == LSBFIRST) {
+		au_digital_write(clockPin, AU_HIGH);
+		if (bitOrder == AU_LSBFIRST) {
 			value |= au_digital_read(dataPin) << i;
     }
 		else {
 			value |= au_digital_read(dataPin) << (7 - i);
     }
-		au_digital_write(clockPin, LOW);
+		au_digital_write(clockPin, AU_LOW);
 	}
 	return value;
 }
@@ -21,7 +21,7 @@ void au_shift_out(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t v
 	uint8_t i;
 
 	for (i = 0; i < 8; i++)  {
-		if (bitOrder == LSBFIRST) {
+		if (bitOrder == AU_LSBFIRST) {
 			au_digital_write(dataPin, val & 1);
 			val >>= 1;
 		} else {	
@@ -29,7 +29,7 @@ void au_shift_out(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t v
 			val <<= 1;
 		}
 			
-		au_digital_write(clockPin, HIGH);
-		au_digital_write(clockPin, LOW);		
+		au_digital_write(clockPin, AU_HIGH);
+		au_digital_write(clockPin, AU_LOW);		
 	}
 }

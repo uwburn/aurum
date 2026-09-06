@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "aurum.h"
 #include "aurum_private.h"
 
 // Arduino AVR core therefore uses 16-byte RX/TX buffers by default:
@@ -157,7 +156,7 @@ static void _tx_udr_empty_irq(void) {
   }
 }
 
-size_t au_serial_write(uint8_t c) {
+int au_serial_write(uint8_t c) {
   _written = true;
   // If the buffer and the data register is empty, just write the byte
   // to the data register and be done. This shortcut helps

@@ -1,9 +1,8 @@
 #include <avr/io.h>
 
-#include "aurum.h"
 #include "aurum_private.h"
 
-uint8_t analog_reference = DEFAULT;
+uint8_t analog_reference = AU_AREF_DEFAULT;
 
 void au_analog_reference(uint8_t mode) {
   // can't actually set the register here because the default setting
@@ -39,15 +38,15 @@ void au_analog_write(uint8_t pin, uint8_t value) {
 	// writing with them.  Also, make sure the pin is in output mode
 	// for consistenty with Wiring, which doesn't require a pinMode
 	// call for the analog output pins.
-  au_pin_mode(pin, OUTPUT);
+  au_pin_mode(pin, AU_OUTPUT);
 
   if (value <= 0) {
-    au_digital_write(pin, LOW);
+    au_digital_write(pin, AU_LOW);
     return;
   }
 
   if (value >= 255) {
-    au_digital_write(pin, HIGH);
+    au_digital_write(pin, AU_HIGH);
     return;
   }
 
@@ -79,10 +78,10 @@ void au_analog_write(uint8_t pin, uint8_t value) {
   case AU_NOT_ON_TIMER:
   default:
     if (value < 128) {
-      au_digital_write(pin, LOW);
+      au_digital_write(pin, AU_LOW);
     }
     else {
-      au_digital_write(pin, HIGH);
+      au_digital_write(pin, AU_HIGH);
     }
     break;
   }

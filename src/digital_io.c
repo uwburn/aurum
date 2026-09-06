@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "aurum.h"
 #include "aurum_private.h"
 
 static void au_turn_off_pwm(uint8_t timer) {
@@ -40,14 +39,14 @@ void au_pin_mode(uint8_t pin, uint8_t mode) {
 	reg = au_port_mode_register(port);
 	out = au_port_output_register(port);
 
-	if (mode == INPUT) { 
+	if (mode == AU_INPUT) { 
 		uint8_t oldSREG = SREG;
     cli();
 		*reg &= ~bit;
 		*out &= ~bit;
 		SREG = oldSREG;
 	}
-  else if (mode == INPUT_PULLUP) {
+  else if (mode == AU_INPUT_PULLUP) {
 		uint8_t oldSREG = SREG;
     cli();
 		*reg &= ~bit;
@@ -83,7 +82,7 @@ void au_digital_write(uint8_t pin, uint8_t value) {
 	uint8_t oldSREG = SREG;
 	cli();
 
-	if (value == LOW) {
+	if (value == AU_LOW) {
 		*out &= ~bit;
 	} else {
 		*out |= bit;
@@ -98,7 +97,7 @@ uint8_t au_digital_read(uint8_t pin) {
 	uint8_t port = au_digital_pin_to_port(pin);
 
 	if (port == AU_NOT_A_PIN) {
-    return LOW;
+    return AU_LOW;
   }
 
 	// If the pin that support PWM output, we need to turn it off
@@ -108,7 +107,7 @@ uint8_t au_digital_read(uint8_t pin) {
   }
 
 	if (*au_port_input_register(port) & bit) {
-    return HIGH;
+    return AU_HIGH;
   }
-	return LOW;
+	return AU_LOW;
 }

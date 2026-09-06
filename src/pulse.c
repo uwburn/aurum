@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "aurum.h"
 #include "aurum_private.h"
 
 /* Measures the length (in microseconds) of a pulse on the pin; state is HIGH

@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#include "aurum.h"
+#include "aurum_private.h"
 
 // timerx_toggle_count:
 //  > 0 - duration specified
@@ -72,7 +72,7 @@ void au_tone(uint8_t _pin, unsigned int frequency, unsigned long duration) {
   }
 
   // Set the pinMode as OUTPUT
-  au_pin_mode(_pin, OUTPUT);
+  au_pin_mode(_pin, AU_OUTPUT);
 
   // we are using an 8 bit timer, scan through prescalars to find the best fit
   ocr = F_CPU / frequency / 2 - 1;
