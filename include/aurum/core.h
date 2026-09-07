@@ -26,7 +26,7 @@
 * of setting up timers, ADC and PWM related functions
 */
 
-void au_init(void);
+void au_init();
 
 
 /*
@@ -35,8 +35,8 @@ void au_init(void);
 * Time and delay related functions
 */
 
-uint32_t au_micros(void);
-uint32_t au_millis(void);
+uint32_t au_micros();
+uint32_t au_millis();
 void au_delay(uint32_t ms);
 void au_delay_microseconds(uint32_t us);
 
@@ -148,12 +148,12 @@ void au_detach_interrupt(uint8_t interrupt);
 #define AU_SERIAL_8O2 0x3E
 
 void au_serial_begin(uint32_t baud, uint8_t config);
-void au_serial_end(void);
-int au_serial_available(void);
-int au_serial_peek(void);
-int au_serial_read(void);
-int au_serial_available_for_write(void);
-void au_serial_flush(void);
+void au_serial_end();
+int au_serial_available();
+int au_serial_peek();
+int au_serial_read();
+int au_serial_available_for_write();
+void au_serial_flush();
 int au_serial_write(uint8_t c);
 void au_serial_print_str(const char *s);
 void au_serial_println_str(const char *s);

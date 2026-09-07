@@ -70,6 +70,8 @@ target_sources(aurum
         ${CMAKE_CURRENT_SOURCE_DIR}/src/shift.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/eeprom.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/software_serial.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/twi.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/wire.c
 )
 
 target_include_directories(aurum

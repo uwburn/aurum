@@ -14,20 +14,20 @@
 #define au_clock_cycles_to_microseconds(a) ( (a) / au_clock_cycles_per_microsecond() )
 #define au_microseconds_to_clock_cycles(a) ( (a) * au_clock_cycles_per_microsecond() )
 
-#define AU_NOT_A_PIN 0
-#define AU_NOT_A_PORT 0
+#define AU_NOT_A_PIN    0
+#define AU_NOT_A_PORT   0
 #define AU_NOT_ON_TIMER 0
-#define AU_TIMER0A 1
-#define AU_TIMER0B 2
-#define AU_TIMER1A 3
-#define AU_TIMER1B 4
-#define AU_TIMER1C 5
-#define AU_TIMER2  6
-#define AU_TIMER2A 7
-#define AU_TIMER2B 8
-#define AU_PORT_B 2
-#define AU_PORT_C 3
-#define AU_PORT_D 4
+#define AU_TIMER0A      1
+#define AU_TIMER0B      2
+#define AU_TIMER1A      3
+#define AU_TIMER1B      4
+#define AU_TIMER1C      5
+#define AU_TIMER2       6
+#define AU_TIMER2A      7
+#define AU_TIMER2B      8
+#define AU_PORT_B       2
+#define AU_PORT_C       3
+#define AU_PORT_D       4
 
 extern const uint16_t PROGMEM au_port_to_mode_PGM[];
 extern const uint16_t PROGMEM au_port_to_input_PGM[];
@@ -65,5 +65,8 @@ uint32_t au_count_pulse_asm(volatile uint8_t *port, uint8_t bit, uint8_t stateMa
 #define EXTERNAL_INT_1 1
 
 typedef void (*voidFuncPtr)(void);
+
+#define PIN_WIRE_SDA    (20)
+#define PIN_WIRE_SCL    (21)
 
 #endif
