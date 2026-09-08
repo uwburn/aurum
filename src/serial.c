@@ -156,7 +156,7 @@ static void _tx_udr_empty_irq(void) {
   }
 }
 
-int au_serial_write(uint8_t c) {
+size_t au_serial_write(uint8_t c) {
   _written = true;
   // If the buffer and the data register is empty, just write the byte
   // to the data register and be done. This shortcut helps
@@ -265,56 +265,8 @@ ISR(USART_UDRE_vect) {
   _tx_udr_empty_irq();
 }
 
-void au_serial_print_str(const char *s) {
-  while (*s) {
-    au_serial_write((uint8_t)*s++);
-  }
-}
+size_t au_serial_print(void *context, uint8_t c) {
+  (void)context;
 
-void au_serial_println_str(const char *s) {
-  au_serial_print_str(s);
-  au_serial_write('\r');
-  au_serial_write('\n');
-}
-
-void au_serial_print_uint(uint32_t value) {
-  char buffer[10];
-  uint8_t i = 0;
-
-  if (value == 0) {
-    au_serial_write('0');
-    return;
-  }
-
-  while (value > 0) {
-    buffer[i++] = '0' + (value % 10);
-    value /= 10;
-  }
-
-  while (i > 0) {
-    au_serial_write(buffer[--i]);
-  }
-}
-
-void au_serial_println_uint(uint32_t value) {
-  au_serial_print_uint(value);
-  au_serial_write('\r');
-  au_serial_write('\n');
-}
-
-void au_serial_print_int(int32_t value) {
-  if (value < 0) {
-    au_serial_write('-');
-
-    au_serial_print_uint((uint32_t)(-(value + 1)) + 1);
-  }
-  else {
-    au_serial_print_uint((uint32_t)value);
-  }
-}
-
-void au_serial_println_int(int32_t value) {
-  au_serial_print_int(value);
-  au_serial_write('\r');
-  au_serial_write('\n');
+  return au_serial_write(c);
 }

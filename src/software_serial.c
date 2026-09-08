@@ -707,56 +707,15 @@ ISR(PCINT2_vect) {
   handle_interrupt();
 }
 
-void au_software_serial_print_str(au_software_serial_t *serial, const char *s) {
-  while (*s) {
-    au_software_serial_write(serial, (uint8_t)*s++);
-  }
+size_t au_software_serial_print(void *context, uint8_t value) {
+  return au_software_serial_write((au_software_serial_t *) context, value);
 }
 
-void au_software_serial_println_str(au_software_serial_t *serial, const char *s) {
-  au_software_serial_print_str(serial, s);
-  au_software_serial_write(serial, '\r');
-  au_software_serial_write(serial, '\n');
-}
+au_printer_t au_software_serial_build_printer(au_software_serial_t *serial) {
+  au_printer_t printer = {
+    .context = serial,
+    .print = au_software_serial_print
+  };
 
-void au_software_serial_print_uint(au_software_serial_t *serial, uint32_t value) {
-  char buffer[10];
-  uint8_t i = 0;
-
-  if (value == 0) {
-    au_software_serial_write(serial, '0');
-    return;
-  }
-
-  while (value > 0) {
-    buffer[i++] = '0' + (value % 10);
-    value /= 10;
-  }
-
-  while (i > 0) {
-    au_software_serial_write(serial, buffer[--i]);
-  }
-}
-
-void au_software_serial_println_uint(au_software_serial_t *serial, uint32_t value) {
-  au_software_serial_print_uint(serial, value);
-  au_software_serial_write(serial, '\r');
-  au_software_serial_write(serial, '\n');
-}
-
-void au_software_serial_print_int(au_software_serial_t *serial, int32_t value) {
-  if (value < 0) {
-    au_software_serial_write(serial, '-');
-
-    au_software_serial_print_uint(serial, (uint32_t)(-(value + 1)) + 1);
-  }
-  else {
-    au_software_serial_print_uint(serial, (uint32_t)value);
-  }
-}
-
-void au_software_serial_println_int(au_software_serial_t *serial, int32_t value) {
-  au_software_serial_print_int(serial, value);
-  au_software_serial_write(serial, '\r');
-  au_software_serial_write(serial, '\n');
+  return printer;
 }

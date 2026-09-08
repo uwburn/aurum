@@ -72,6 +72,7 @@ target_sources(aurum
         ${CMAKE_CURRENT_SOURCE_DIR}/src/software_serial.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/twi.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/wire.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/print.c
 )
 
 target_include_directories(aurum

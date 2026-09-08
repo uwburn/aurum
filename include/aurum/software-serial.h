@@ -20,6 +20,7 @@
 #include <stddef.h>
 
 #include "core.h"
+#include "print.h"
 
 /*
 * SOFTWARE SERIAL
@@ -72,12 +73,7 @@ int au_software_serial_read(au_software_serial_t *serial);
 int au_software_serial_peek(au_software_serial_t *serial);
 bool au_software_serial_overflow(au_software_serial_t *serial);
 size_t au_software_serial_write(au_software_serial_t *serial, uint8_t value);
-void au_software_serial_flush(au_software_serial_t *serial);
-void au_software_serial_print_str(au_software_serial_t *serial, const char *s);
-void au_software_serial_println_str(au_software_serial_t *serial, const char *s);
-void au_software_serial_print_uint(au_software_serial_t *serial, uint32_t value);
-void au_software_serial_println_uint(au_software_serial_t *serial, uint32_t value);
-void au_software_serial_print_int(au_software_serial_t *serial, int32_t value);
-void au_software_serial_println_int(au_software_serial_t *serial, int32_t value);
+size_t au_software_serial_print(void *context, uint8_t value);
+au_printer_t au_software_serial_build_printer(au_software_serial_t *serial);
 
 #endif

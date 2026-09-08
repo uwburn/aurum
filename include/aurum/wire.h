@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "print.h"
+
 void au_wire_begin();
 void au_wire_begin_address(uint8_t address);
 void au_wire_end();
@@ -23,7 +25,14 @@ int au_wire_peek();
 void au_wire_flush();
 size_t au_wire_write(uint8_t data);
 size_t au_wire_write_buffer(const uint8_t *data, size_t length);
+size_t au_wire_print(void *context, uint8_t data);
 void au_wire_on_receive(void (*callback)(int));
 void au_wire_on_request(void (*callback)(void));
+
+#define au_wire_build_printer() \
+{ \
+  .context = NULL, \
+  .print = au_wire_print \
+}
 
 #endif

@@ -218,6 +218,12 @@ size_t au_wire_write_buffer(const uint8_t *data, size_t quantity) {
   }
 }
 
+size_t au_wire_print(void *context, uint8_t data) {
+  (void)context;
+
+  return au_wire_write(data);
+}
+
 // RX buffer
 int au_wire_available(void) {
   return rx_buffer_length - rx_buffer_index;

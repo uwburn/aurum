@@ -19,6 +19,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "print.h"
+
 /*
 * SYSTEM
 *
@@ -154,12 +156,13 @@ int au_serial_peek();
 int au_serial_read();
 int au_serial_available_for_write();
 void au_serial_flush();
-int au_serial_write(uint8_t c);
-void au_serial_print_str(const char *s);
-void au_serial_println_str(const char *s);
-void au_serial_print_uint(uint32_t value);
-void au_serial_println_uint(uint32_t value);
-void au_serial_print_int(int32_t value);
-void au_serial_println_int(int32_t value);
+size_t au_serial_write(uint8_t c);
+size_t au_serial_print(void *context, uint8_t c);
+
+#define au_serial_build_printer() \
+{ \
+  .context = NULL, \
+  .print = au_serial_print \
+}
 
 #endif
