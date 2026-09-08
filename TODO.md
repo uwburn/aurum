@@ -1,4 +1,2 @@
 - SPI
 - Preemptive task scheduler
-- print_float & println_float
-- separate print functions and accept write function?
