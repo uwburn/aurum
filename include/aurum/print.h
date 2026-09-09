@@ -1,5 +1,33 @@
+/*
+* Aurum - Arduino Uno C API
+*
+* This library provide a didactical implementation of an Arduino like API in C
+* for Arduino Uno boards. It targets, in particular the original Arduino Uno R1.
+*
+* The code is mostly written with LLM for enterteinment purpose, it's not aimed
+* at real usage or for any kind of replacement of the original Arduino API.
+*
+* No wrappers for functions existing in AVR lib-c are provided, just use the
+* original functions.
+*/
+
 #ifndef AURUM_PRINT_H
 #define AURUM_PRINT_H
+
+/*
+* PRINT
+*
+* Struct and functions to deal with common printing needs without recurring to
+* the more heavyweigth sprintf.
+*
+* This is a porting of the Print class from the original Arduino API.
+*
+* Interfaces (Serial, software serial, i2c/wire) implement functions or macros
+* to build the printer struct correctly.
+*
+* The printer struct is left public to support static memory allocation without
+* hacks.
+*/
 
 #include <stdint.h>
 #include <stddef.h>

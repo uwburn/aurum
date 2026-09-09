@@ -19,6 +19,9 @@
 *
 * This header contains functions for using the SPI interface, it matches the
 * dedicated Arduino SPI library.
+*
+* The spi_settings struct is left public to support static memory allocation
+* without hacks.
 */
 
 #include <stdint.h>

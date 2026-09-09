@@ -15,24 +15,28 @@
 #ifndef AURUM_SOFTWARE_SERIAL_H
 #define AURUM_SOFTWARE_SERIAL_H
 
+/*
+* SOFTWARE SERIAL
+*
+* Allows serial communication on other digital pins of the board, using
+* software to replicate the functionality, matching the original Arduino
+* dedicated library.
+*
+* The following limitations are present:
+* - It cannot transmit and receive data at the same time.
+* - If using multiple software serial ports, only one can receive data
+*   at a time.
+*
+* The software_serial struct is left public to support static memory allocation
+* without hacks.
+*/
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
 
 #include "core.h"
 #include "print.h"
-
-/*
-* SOFTWARE SERIAL
-*
-* Allows serial communication on other digital pins of the board, using
-* software to replicate the functionality. 
-*
-* The following limitations are present:
-* - It cannot transmit and receive data at the same time.
-* - If using multiple software serial ports, only one can receive data
-*   at a time.
-*/
 
 typedef struct {
   /* RX pin */

@@ -15,16 +15,18 @@
 #ifndef AURUM_EEPROM_H
 #define AURUM_EEPROM_H
 
-#include <stdint.h>
-
-#include "core.h"
-
 /*
 * EEPROM
 *
-* Functions to read and write on the integrated EEPROM.
+* Functions to read and write on the integrated EEPROM. It matches the
+* Arduino dedicated EEPROM library.
+*
 * ATmega328P EEPROM size: 1024 bytes, valid addresses: 0..1023
 */
+
+#include <stdint.h>
+
+#include "core.h"
 
 #define AU_EEPROM_SIZE 1024U
 #define AU_EEPROM_END  (AU_EEPROM_SIZE - 1U)

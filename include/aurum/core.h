@@ -15,6 +15,13 @@
 #ifndef AURUM_CORE_H
 #define AURUM_CORE_H
 
+/*
+* CORE
+*
+* This header contains core API functions and definitions, it matches more or
+* less the original Arduino.h content.
+*/
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -22,8 +29,6 @@
 #include "print.h"
 
 /*
-* SYSTEM
-*
 * au_init needs to be called before using other functions, it takes care
 * of setting up timers, ADC and PWM related functions
 */
@@ -32,8 +37,6 @@ void au_init();
 
 
 /*
-* TIME
-*
 * Time and delay related functions
 */
 
@@ -44,8 +47,6 @@ void au_delay_microseconds(uint32_t us);
 
 
 /*
-* DIGITAL I/O
-*
 * Digital I/O mode, read and write functions plus constants definitions
 */
 
@@ -61,8 +62,6 @@ uint8_t au_digital_read(uint8_t pin);
 
 
 /*
-* ANALOG I/O
-*
 * Analog I/O reference, read and write functions plus constants definitions
 */
 
@@ -82,8 +81,6 @@ void au_analog_write(uint8_t pin, uint8_t value);
 
 
 /*
-* ADVANCED I/O
-*
 * Functions to implement common I/O tasks
 */
 
@@ -97,8 +94,6 @@ void au_shift_out(uint8_t data_pin, uint8_t clock_pin, uint8_t bit_order, uint8_
 
 
 /*
-* EXTERNAL INTERRUPTS
-* 
 * Handling of interrupts on pins
 */
 
@@ -114,8 +109,6 @@ void au_attach_interrupt(uint8_t interrupt, void (*function)(void), int mode);
 void au_detach_interrupt(uint8_t interrupt);
 
 /*
-* SERIAL
-*
 * Functions to read and write on the serial port
 */
 
