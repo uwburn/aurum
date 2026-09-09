@@ -69,4 +69,9 @@ typedef void (*voidFuncPtr)(void);
 #define PIN_WIRE_SDA    (20)
 #define PIN_WIRE_SCL    (21)
 
+#define PIN_SPI_SS    (10)
+#define PIN_SPI_MOSI  (11)
+#define PIN_SPI_MISO  (12)
+#define PIN_SPI_SCK   (13)
+
 #endif

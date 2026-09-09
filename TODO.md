@@ -1,2 +1,1 @@
-- SPI
 - Preemptive task scheduler
