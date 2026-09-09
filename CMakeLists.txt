@@ -74,6 +74,7 @@ target_sources(aurum
         ${CMAKE_CURRENT_SOURCE_DIR}/src/wire.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/spi.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/print.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/coop_task.c
 )
 
 target_include_directories(aurum
