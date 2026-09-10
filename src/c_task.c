@@ -1,4 +1,4 @@
-#include "aurum/coop_task.h"
+#include "aurum/c_task.h"
 
 typedef enum {
   AU_TASK_UNUSED = 0,
@@ -6,8 +6,8 @@ typedef enum {
   AU_TASK_RUNNING
 } au_task_state_t;
 
-struct au_task {
-  au_task_fn fn;
+struct au_ctask {
+  au_ctask_fn fn;
   void *context;
   au_task_state_t state;
   uint32_t delay;
@@ -15,11 +15,11 @@ struct au_task {
   uint32_t run_at;
 };
 
-static au_task_t tasks[AU_TASK_CAPACITY];
+static au_ctask_t tasks[AU_CTASK_CAPACITY];
 
-au_task_t *au_task_add(au_task_fn fn, void *context, uint32_t delay, uint32_t period) {
-  for (uint8_t i = 0; i < AU_TASK_CAPACITY; i++) {
-    au_task_t *task = &tasks[i];
+au_ctask_t *au_ctask_add(au_ctask_fn fn, void *context, uint32_t delay, uint32_t period) {
+  for (uint8_t i = 0; i < AU_CTASK_CAPACITY; i++) {
+    au_ctask_t *task = &tasks[i];
 
     if (task->state != AU_TASK_UNUSED) {
         continue;
@@ -38,7 +38,7 @@ au_task_t *au_task_add(au_task_fn fn, void *context, uint32_t delay, uint32_t pe
   return NULL;
 }
 
-void au_task_remove(au_task_t *task) {
+void au_ctask_remove(au_ctask_t *task) {
   if (task == NULL) {
     return;
   }
@@ -51,7 +51,7 @@ void au_task_remove(au_task_t *task) {
   task->state = AU_TASK_UNUSED;
 }
 
-void au_task_start(au_task_t *task){
+void au_ctask_start(au_ctask_t *task){
   if (task == NULL) {
     return;
   }
@@ -64,7 +64,7 @@ void au_task_start(au_task_t *task){
   task->state = AU_TASK_RUNNING;
 }
 
-void au_task_stop(au_task_t *task) {
+void au_ctask_stop(au_ctask_t *task) {
   if (task == NULL) {
     return;
   }
@@ -72,7 +72,7 @@ void au_task_stop(au_task_t *task) {
   task->state = AU_TASK_STOPPED;
 }
 
-void au_task_run_at(au_task_t *task, uint32_t run_at) {
+void au_ctask_run_at(au_ctask_t *task, uint32_t run_at) {
   if (task == NULL) {
     return;
   }
@@ -81,11 +81,11 @@ void au_task_run_at(au_task_t *task, uint32_t run_at) {
   task->state = AU_TASK_RUNNING;
 }
 
-void au_scheduler_run(void) {
+void au_cscheduler_run(void) {
   uint32_t now = au_millis();
 
-  for (uint8_t i = 0; i < AU_TASK_CAPACITY; i++) {
-    au_task_t *task = &tasks[i];
+  for (uint8_t i = 0; i < AU_CTASK_CAPACITY; i++) {
+    au_ctask_t *task = &tasks[i];
 
     if (task->state != AU_TASK_RUNNING) {
       continue;
@@ -117,8 +117,8 @@ void au_scheduler_run(void) {
   }
 }
 
-void au_scheduler_loop(void) {
+void au_cscheduler_loop(void) {
   for (;;) {
-    au_scheduler_run();
+    au_cscheduler_run();
   }
 }
