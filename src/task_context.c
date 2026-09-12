@@ -9,21 +9,22 @@ void au_context_init(
     void (*entry)(void *),
     void *context
 ) {
-  uint8_t *sp = stack + stack_size - 1;      /* ultimo byte utilizzabile */
+  uint8_t *sp = stack + stack_size - 1;
   uint16_t pc  = (uint16_t)(uintptr_t)entry;
   uint16_t ctx = (uint16_t)(uintptr_t)context;
 
-  *sp-- = (uint8_t)(pc & 0xFF);              /* return address LOW  */
-  *sp-- = (uint8_t)(pc >> 8);                /* return address HIGH */
+  *sp-- = (uint8_t)(pc & 0xFF);   /* return address LOW  */
+  *sp-- = (uint8_t)(pc >> 8);     /* return address HIGH */
+  *sp-- = 0;                      /* r0   */
+  *sp-- = 0x80;                   /* SREG */
+  *sp-- = 0;                      /* r1 deve valere 0 per avr-gcc */
 
-  for (uint8_t i = 0; i < 16; i++) {         /* r2 ... r17 */
-    *sp-- = 0;
+  for (uint8_t r = 2; r <= 31; r++) {
+    uint8_t v = 0;
+    if (r == 24) v = (uint8_t)(ctx & 0xFF);
+    if (r == 25) v = (uint8_t)(ctx >> 8);
+    *sp-- = v;
   }
-
-  *sp-- = (uint8_t)(ctx & 0xFF);             /* r24 = context LOW  */
-  *sp-- = (uint8_t)(ctx >> 8);               /* r25 = context HIGH */
-  *sp-- = 0;                                 /* r28 */
-  *sp-- = 0;                                 /* r29 */
 
   *saved_sp = (au_stack_pointer_t)(uintptr_t)sp;
 }
