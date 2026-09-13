@@ -7,8 +7,6 @@
 #include "task_context.h"
 #include "aurum_private.h"
 
-#include "aurum/core.h"
-
 #define AU_PTASK_TIMER_PRESCALER 64UL
 #define AU_PTASK_TIMER_TOP \
   (((F_CPU / AU_PTASK_TIMER_PRESCALER / 1000UL) * AU_PTASK_TIME_SLICE_MS) - 1UL)
