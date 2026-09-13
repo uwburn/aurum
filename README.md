@@ -145,6 +145,25 @@ The recommended workflow to use the library is:
   )
   ```
 
+- In your main function, be sure to call `au_init()` from `aurum/core.h` at the beginning, e.g.:
+
+  ```
+  void setup();
+  void loop();
+
+  int main(void) {
+    au_init();
+    
+    setup();
+  
+    for (;;) {
+      loop();
+    }
+    
+    return 0;
+  }
+  ```
+
 ## Modules
 
 The library is divided into several header files, defining modules for different parts logically grouped together:

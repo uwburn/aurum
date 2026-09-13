@@ -2,57 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 project(aurum LANGUAGES C ASM)
 
-# OBJECT
-
-# set(MCU atmega328p)
-# set(F_CPU 16000000UL)
-
-# set(CMAKE_C_COMPILER avr-gcc)
-
-# set(CMAKE_C_STANDARD 11)
-# set(CMAKE_C_STANDARD_REQUIRED ON)
-
-# add_library(aurum OBJECT
-#     src/system.c
-#     src/digital_io.c
-#     src/analog_io.c
-#     src/time.c
-#     src/serial.c
-#     src/ext_interrupts.c
-#     src/tone.c
-#     src/pulse.s
-#     src/pulse.c
-#     src/shift.c
-#     src/eeprom.c
-#     src/software_serial.c
-# )
-
-# target_include_directories(aurum
-#     PUBLIC
-#         ${CMAKE_CURRENT_SOURCE_DIR}/include
-# )
-
-# target_include_directories(${PROJECT_NAME} PRIVATE
-#     include
-# )
-
-# target_compile_options(${PROJECT_NAME} PRIVATE
-#     -mmcu=${MCU}
-#     -DF_CPU=${F_CPU}
-#     -Os
-#     -ffunction-sections
-#     -fdata-sections
-#     -Wall
-#     -Wextra
-# )
-
-# target_link_options(${PROJECT_NAME} PRIVATE
-#     -mmcu=${MCU}
-# )
-
-
-# INTERFACE + SOURCES
-
 add_library(aurum INTERFACE)
 
 target_sources(aurum
