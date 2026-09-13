@@ -1,5 +1,25 @@
+/*
+* Aurum - Arduino Uno C API
+*
+* This library provide a didactical implementation of an Arduino like API in C
+* for Arduino Uno boards. It targets, in particular the original Arduino Uno R1.
+*
+* The code is mostly written with LLM for enterteinment purpose, it's not aimed
+* at real usage or for any kind of replacement of the original Arduino API.
+*
+* No wrappers for functions existing in AVR lib-c are provided, just use the
+* original functions.
+*/
+
 #ifndef AU_P_TASK_H
 #define AU_P_TASK_H
+
+/*
+* PREEMPTIVE TASK SCHEDULER
+*
+* Preemptive task scheduler. be sure to set appropriate values of
+* AU_PTASK_CAPACITY and AU_PTASK_STACK_SIZE to balance memory usage.
+*/
 
 #include <stdint.h>
 #include <stddef.h>
@@ -17,13 +37,6 @@
 #ifndef AU_PTASK_TIME_SLICE_MS
 #define AU_PTASK_TIME_SLICE_MS 1
 #endif
-
-/*
-* PREEMPTIVE TASK SCHEDULER
-*
-* Preemptive task scheduler. be sure to set appropriate values of
-* AU_PTASK_CAPACITY and AU_PTASK_STACK_SIZE to balance memory usage.
-*/
 
 typedef void (*au_ptask_fn)(void *context);
 
