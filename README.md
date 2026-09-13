@@ -164,6 +164,19 @@ The recommended workflow to use the library is:
   }
   ```
 
+- Once everything is set you can start working with CMake, to prepare the environment:
+
+  ```
+  cmake -S . -B build
+  ```
+
+  This will create a build environment in directory `build` looking for `CMakeLists.txt` and sources starting in the project directory `.`;
+
+- To build the executable image use `cmake --build build`
+- To flash the image on the device use `cmake --build build --target flash`
+
+See the examples in the `examples` directory.
+
 ## Modules
 
 The library is divided into several header files, defining modules for different parts logically grouped together:
