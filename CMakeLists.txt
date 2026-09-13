@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(aurum LANGUAGES C ASM)
+project(aurum VERSION 1.0.0 LANGUAGES C ASM)
 
 add_library(aurum INTERFACE)
 
