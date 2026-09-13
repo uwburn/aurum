@@ -13,10 +13,13 @@
 
 au_context_switch:
     ; r25:r24 = saved_sp, r23:r22 = next_sp
+    ; PRECONDITION: must be called with interrupts already cleared
+    ; cli down below protects only from altering the SP
 
     push r0
-    in   r0, AU_SREG        ; flag correnti, bit I = stato globale
+    in   r0, AU_SREG        ; SREG from exiting context, included I bit
     push r0
+    cli
     push r1
     push r2
     push r3
@@ -57,7 +60,6 @@ au_context_switch:
     std  Z+1, r19
 
     ; --- SP = next_sp ---
-    cli                     ; I resta a 0 fino al ripristino di SREG
     out  AU_SPH, r23
     out  AU_SPL, r22
 
@@ -93,13 +95,11 @@ au_context_switch:
     pop r2
     pop r1
 
-    ; --- SREG: flag del task, bit I dal contesto globale ---
-    bst  r0, 7              ; T = I del chiamante (r0 = SREG d'ingresso)
-    pop  r0                 ; SREG del task entrante
-    bld  r0, 7              ; sovrascrive il suo bit I
-    out  AU_SREG, r0
+    ; --- SREG from incoming context, fully restored
+    pop  r0
+    out  AU_SREG, r0        ; I bit is the one saved from incoming task
 
-    pop r0
+    pop  r0
     ret
 
 .size au_context_switch, .-au_context_switch

@@ -77,7 +77,7 @@ target_sources(aurum
         ${CMAKE_CURRENT_SOURCE_DIR}/src/c_task.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/task_context.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/task_context.s
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/r_task.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/p_task.c
 )
 
 target_include_directories(aurum
