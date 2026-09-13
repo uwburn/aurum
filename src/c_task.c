@@ -81,7 +81,7 @@ void au_ctask_run_at(au_ctask_t *task, uint32_t run_at) {
   task->state = AU_TASK_RUNNING;
 }
 
-void au_cscheduler_run(void) {
+void au_cscheduler_run() {
   uint32_t now = au_millis();
 
   for (uint8_t i = 0; i < AU_CTASK_CAPACITY; i++) {
@@ -117,7 +117,7 @@ void au_cscheduler_run(void) {
   }
 }
 
-void au_cscheduler_loop(void) {
+void au_cscheduler_loop() {
   for (;;) {
     au_cscheduler_run();
   }

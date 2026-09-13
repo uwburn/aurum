@@ -55,7 +55,7 @@ static volatile uint8_t twi_error;
  * Input    none
  * Output   none
  */
-void au_twi_init(void) {
+void au_twi_init() {
   // initialize state
   twi_state = AU_TWI_READY;
   twi_send_stop = true;		// default value
@@ -85,7 +85,7 @@ void au_twi_init(void) {
  * Input    none
  * Output   none
  */
-void au_twi_disable(void) {
+void au_twi_disable() {
   // disable twi module, acks, and twi interrupt
   TWCR &= ~(_BV(TWEN) | _BV(TWIE) | _BV(TWEA));
 
@@ -382,7 +382,7 @@ void au_twi_reply(uint8_t ack) {
  * Input    none
  * Output   none
  */
-void au_twi_stop(void) {
+void au_twi_stop() {
   // send stop condition
   TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT) | _BV(TWSTO);
 
@@ -414,7 +414,7 @@ void au_twi_stop(void) {
  * Input    none
  * Output   none
  */
-void au_twi_release_bus(void) {
+void au_twi_release_bus() {
   // release bus
   TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT);
 

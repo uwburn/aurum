@@ -38,7 +38,7 @@ ISR(TIMER0_OVF_vect) {
 	timer0_overflow_count++;
 }
 
-uint32_t au_micros(void) {
+uint32_t au_micros() {
 	unsigned long m;
 	uint8_t oldSREG = SREG, t;
 	
@@ -55,7 +55,7 @@ uint32_t au_micros(void) {
 	return ((m << 8) + t) * (64 / au_clock_cycles_per_microsecond());
 }
 
-uint32_t au_millis(void) {
+uint32_t au_millis() {
   unsigned long m;
 	uint8_t oldSREG = SREG;
 

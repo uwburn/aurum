@@ -63,7 +63,7 @@ void au_serial_begin(uint32_t baud, uint8_t config) {
   cbi(UCSR0B, UDRIE0);
 }
 
-void au_serial_end(void) {
+void au_serial_end() {
   // wait for transmission of outgoing data
   au_serial_flush();
 
@@ -76,11 +76,11 @@ void au_serial_end(void) {
   _rx_buffer_head = _rx_buffer_tail;
 }
 
-int au_serial_available(void) {
+int au_serial_available() {
   return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
 }
 
-int au_serial_peek(void) {
+int au_serial_peek() {
   if (_rx_buffer_head == _rx_buffer_tail) {
     return -1;
   }
@@ -89,7 +89,7 @@ int au_serial_peek(void) {
   }
 }
 
-int au_serial_read(void) {
+int au_serial_read() {
   // if the head isn't ahead of the tail, we don't have any characters
   if (_rx_buffer_head == _rx_buffer_tail) {
     return -1;
@@ -101,7 +101,7 @@ int au_serial_read(void) {
   }
 }
 
-static void _rx_complete_irq(void) {
+static void _rx_complete_irq() {
   if (bit_is_clear(UCSR0A, UPE0)) {
     // No Parity error, read byte and store it in the buffer if there is
     // room
@@ -123,7 +123,7 @@ static void _rx_complete_irq(void) {
   };
 }
 
-int au_serial_available_for_write(void) {
+int au_serial_available_for_write() {
   tx_buffer_index_t head;
   tx_buffer_index_t tail;
 
@@ -136,7 +136,7 @@ int au_serial_available_for_write(void) {
   return tail - head - 1;
 }
 
-static void _tx_udr_empty_irq(void) {
+static void _tx_udr_empty_irq() {
   // If interrupts are enabled, there must be more data in the output
   // buffer. Send the next byte
   unsigned char c = _tx_buffer[_tx_buffer_tail];
@@ -227,7 +227,7 @@ size_t au_serial_write(uint8_t c) {
   return written;
 }*/
 
-void au_serial_flush(void) {
+void au_serial_flush() {
   // If we have never written a byte, no need to flush. This special
   // case is needed since there is no way to force the TXC (transmit
   // complete) bit to 1 during initialization

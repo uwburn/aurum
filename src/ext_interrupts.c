@@ -3,7 +3,7 @@
 
 #include "aurum_private.h"
 
-static void nothing(void) {
+static void nothing() {
 }
 
 static volatile voidFuncPtr intFunc[EXTERNAL_NUM_INTERRUPTS] = {

@@ -19,7 +19,7 @@ static uint8_t transmitting = 0;
 static void (*user_on_request)(void) = NULL;
 static void (*user_on_receive)(int) = NULL;
 
-static void au_wire_on_request_service(void) {
+static void au_wire_on_request_service() {
   if (user_on_request == NULL) {
       return;
   }
@@ -55,7 +55,7 @@ static void au_wire_on_receive_service(uint8_t *in_bytes, int num_bytes) {
   user_on_receive(num_bytes);
 }
 
-void au_wire_begin(void) {
+void au_wire_begin() {
   rx_buffer_index = 0;
   rx_buffer_length = 0;
 
@@ -153,7 +153,7 @@ void au_wire_begin_transmission(uint8_t address) {
   tx_buffer_length = 0;
 }
 
-uint8_t au_wire_end_transmission(void) {
+uint8_t au_wire_end_transmission() {
   return au_wire_end_transmission_stop(1);
 }
 
@@ -225,11 +225,11 @@ size_t au_wire_print(void *context, uint8_t data) {
 }
 
 // RX buffer
-int au_wire_available(void) {
+int au_wire_available() {
   return rx_buffer_length - rx_buffer_index;
 }
 
-int au_wire_read(void) {
+int au_wire_read() {
   int value = -1;
 
   // Get each successive byte on each call.
@@ -241,7 +241,7 @@ int au_wire_read(void) {
   return value;
 }
 
-int au_wire_peek(void) {
+int au_wire_peek() {
   int value = -1;
 
   if (rx_buffer_index < rx_buffer_length) {
@@ -251,7 +251,7 @@ int au_wire_peek(void) {
   return value;
 }
 
-void au_wire_flush(void) {
+void au_wire_flush() {
 }
 
 void au_wire_on_receive(void (*callback)(int)) {
