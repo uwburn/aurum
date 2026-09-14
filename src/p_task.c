@@ -36,12 +36,14 @@ struct au_ptask {
   au_ptask_state_t state;
 
   uint8_t priority;
+  uint32_t last_run;
 };
 
 static au_ptask_t tasks[AU_PTASK_CAPACITY];
 static au_ptask_t *current_task;
 static au_stack_pointer_t idle_saved_sp;
 static size_t last_task_index = 0;
+static uint32_t run_seq = 0;
 
 static void au_ptask_timer_init() {
 #if AU_PTASK_TIME_SLICE_MS > 0
@@ -93,7 +95,14 @@ static au_ptask_t *au_pscheduler_next_task() {
       continue;
     }
 
-    if (best == NULL || task->priority < best->priority) {
+    if (
+      best == NULL ||
+      task->priority < best->priority ||
+      (
+        task->priority == best->priority &&
+        (int32_t)(task->last_run - best->last_run) < 0
+      )
+    ) {
       best = task;
       best_index = i;
     }
@@ -101,6 +110,7 @@ static au_ptask_t *au_pscheduler_next_task() {
 
   if (best != NULL) {
     last_task_index = best_index;
+    best->last_run = ++run_seq;
   }
 
   return best;
@@ -206,7 +216,7 @@ au_ptask_t *au_ptask_create(au_ptask_fn fn, void *context, uint8_t priority) {
       task
     );
 
-    task->state = AU_PTASK_READY;
+    task->state = AU_PTASK_STOPPED;
 
     SREG = sreg;
     return task;

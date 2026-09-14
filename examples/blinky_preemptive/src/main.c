@@ -26,11 +26,13 @@ void btn_task_fn(void *context);
 void analog_task_fn(void *context);
 void blink_task_fn(void *context);
 void counting_task_fn(void *context);
+void shouting_task_fn(void *context);
 
 au_ptask_t *btn_task;
 au_ptask_t *analog_task;
 au_ptask_t *blink_task;
 au_ptask_t *counting_task;
+au_ptask_t *shouting_task;
 
 au_printer_t serial_printer = au_serial_build_printer();
 
@@ -54,6 +56,9 @@ int main() {
 
   counting_task = au_ptask_create(counting_task_fn, &counting_task_context, 2);
   au_ptask_start(counting_task);
+
+  shouting_task = au_ptask_create(shouting_task_fn, NULL, 2);
+  au_ptask_start(shouting_task);
 
   au_pscheduler_run();
 
@@ -106,6 +111,13 @@ void counting_task_fn(void *context) {
     au_print_int(&serial_printer, counting_context->n++);
     au_print_str(&serial_printer, ", stack available=");
     au_println_int(&serial_printer, au_ptask_stack_available());
-    au_ptask_yield();
+  }
+}
+
+void shouting_task_fn(void *context) {
+  (void)context;
+
+  for (;;) {
+    au_println_str(&serial_printer, "SHOUT!!!");
   }
 }

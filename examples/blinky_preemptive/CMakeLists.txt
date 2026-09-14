@@ -29,6 +29,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     include
 )
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    AU_PTASK_CAPACITY=5
+)
+
 target_compile_options(${PROJECT_NAME} PRIVATE
     -mmcu=${MCU}
     -DF_CPU=${F_CPU}
