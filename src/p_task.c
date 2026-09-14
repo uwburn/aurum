@@ -123,7 +123,6 @@ static bool au_pscheduler_has_pending_task() {
  /* Should be called with I=0 (ISR or from critical section) */
 static void au_pscheduler_switch() {
   // current_task == NULL means idle context
-
   au_ptask_t *prev = current_task;
   au_ptask_t *next = au_pscheduler_next_task();
 
@@ -163,6 +162,8 @@ static void au_pscheduler_switch_away() {
   }
 }
 
+/* Trampoline is part of the constructed stack frame of a task, it 
+ensures a valid termination path in case a task function returns */
 static void au_ptask_trampoline(void *context) {
   au_ptask_t *task = context;
 
