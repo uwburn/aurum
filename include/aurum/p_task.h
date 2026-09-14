@@ -55,6 +55,9 @@ void au_ptask_set_priority(au_ptask_t *task, uint8_t priority);
 void au_ptask_start(au_ptask_t *task);
 void au_ptask_stop(au_ptask_t *task);
 
+void au_ptask_atomic_enter();
+void au_ptask_atomic_exit();
+
 void au_pscheduler_run();
 
 void au_ptask_yield();

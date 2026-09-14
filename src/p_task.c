@@ -44,6 +44,8 @@ static au_ptask_t *current_task;
 static au_stack_pointer_t idle_saved_sp;
 static size_t last_task_index = 0;
 static uint32_t run_seq = 0;
+static volatile uint8_t scheduler_lock = 0;
+static volatile bool switch_pending = false;
 
 static void au_ptask_timer_init() {
 #if AU_PTASK_TIME_SLICE_MS > 0
@@ -132,6 +134,13 @@ static bool au_pscheduler_has_pending_task() {
 
  /* Should be called with I=0 (ISR or from critical section) */
 static void au_pscheduler_switch() {
+  if (scheduler_lock > 0) {
+    switch_pending = true;
+    return;
+  }
+
+  switch_pending = false;
+
   // current_task == NULL means idle context
   au_ptask_t *prev = current_task;
   au_ptask_t *next = au_pscheduler_next_task();
@@ -180,6 +189,7 @@ static void au_ptask_trampoline(void *context) {
   task->fn(task->context);
 
   cli();
+  scheduler_lock = 0;
   task->state = AU_PTASK_TERMINATED;
   au_pscheduler_switch_away();
 }
@@ -236,6 +246,7 @@ void au_ptask_remove(au_ptask_t *task) {
 
   if (task == current_task) {
     // Slot remains terminated untile the stack is exited
+    scheduler_lock = 0;
     task->state = AU_PTASK_TERMINATED;
     au_pscheduler_switch_away();
   }
@@ -315,6 +326,7 @@ void au_ptask_stop(au_ptask_t *task) {
     task->state = AU_PTASK_STOPPED;
     if (task == current_task) {
       // Resume from au_ptask_start
+      scheduler_lock = 0;
       au_pscheduler_switch();
     }
     break;
@@ -331,7 +343,7 @@ void au_ptask_yield() {
 
   au_ptask_t *task = current_task;
 
-  if (task != NULL) {
+  if (task != NULL && scheduler_lock == 0) {
     if (task->state == AU_PTASK_RUNNING) {
       task->state = AU_PTASK_READY;
     }
@@ -352,7 +364,7 @@ void au_ptask_delay_microseconds(uint32_t us) {
 
   au_ptask_t *task = current_task;
 
-  if (task != NULL) {
+  if (task != NULL && scheduler_lock == 0) {
     task->wakeup_time = au_micros() + us;
     task->state = AU_PTASK_WAITING;
     au_pscheduler_switch();
@@ -363,6 +375,32 @@ void au_ptask_delay_microseconds(uint32_t us) {
 
 void au_ptask_delay(uint32_t ms) {
   au_ptask_delay_microseconds(ms * 1000UL);
+}
+
+void au_ptask_atomic_enter() {
+  uint8_t sreg = SREG;
+  cli();
+
+  if (current_task != NULL && scheduler_lock < UINT8_MAX) {
+    scheduler_lock++;
+  }
+
+  SREG = sreg;
+}
+
+void au_ptask_atomic_exit() {
+  uint8_t sreg = SREG;
+  cli();
+
+  if (current_task != NULL && scheduler_lock > 0) {
+    scheduler_lock--;
+
+    if (scheduler_lock == 0 && switch_pending) {
+      au_pscheduler_switch();
+    }
+  }
+
+  SREG = sreg;
 }
 
 void au_pscheduler_run() {
